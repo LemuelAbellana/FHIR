@@ -1,0 +1,34 @@
+--- app/Services/FhirPatientService.php : 28-52 ---
+  28          $given = [$patient->first_name];
+  29  
+  30          if (filled($patient->middle_name)) {
+  31              $given[] = $patient->middle_name;
+  32          }
+  33  
+  34          $payload = [
+  35              'resourceType' => 'Patient',
+  36              'identifier' => [[
+  37                  'system' => 'urn:fhir-patient-demo:patient-number',
+  38                  'value' => $patient->patient_number,
+  39              ]],
+  40              'active' => $patient->active,
+  41              'name' => [['use' => 'official', 'family' => $patient->last_name, 'given' => $given]],
+  42              'gender' => $patient->gender,
+  43              'birthDate' => $patient->birth_date,
+  44          ];
+  45  
+  46          if (filled($patient->phone)) {
+  47              $payload['telecom'][] = ['system' => 'phone', 'value' => $patient->phone, 'use' => 'mobile'];
+  48          }
+  49  
+  50          if (filled($patient->email)) {
+  51              $payload['telecom'][] = ['system' => 'email', 'value' => $patient->email];
+  52          }
+--- app/Services/FhirPatientService.php : 58-64 ---
+  58          return $payload;
+  59      }
+  60  
+  61      public function json(Patient $patient): string
+  62      {
+  63          return json_encode($this->payload($patient), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR);
+  64      }

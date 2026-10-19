@@ -1,0 +1,8 @@
+{
+  "title": "Dynamic FHIR R4 Patient JSON",
+  "caption": "Actual service code maps the selected database patient and serializes the preview JSON.",
+  "sections": [
+    {"path": "app/Services/FhirPatientService.php", "start": 28, "end": 52},
+    {"path": "app/Services/FhirPatientService.php", "start": 58, "end": 64}
+  ]
+}

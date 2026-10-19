@@ -1,0 +1,3 @@
+- The selected database patient supplies the identifier, official name, gender, birth date, and available contact details; this is generated data rather than a hardcoded JSON example.
+- The service produces formatted FHIR Patient JSON, which is also the exact body used by the transmission method.
+- The exported PT-DEMO-001 sample contains seeded synthetic data. Run export-patient.php against the prepared demo database to reproduce it; this helper does not send a request.

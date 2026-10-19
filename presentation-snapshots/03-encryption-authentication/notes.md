@@ -1,0 +1,3 @@
+- Encrypted casts decrypt patient attributes for the application while the database stores ciphertext. Patient number and active status are not encrypted by these casts.
+- Patient screens, FHIR downloads and audit logs share the `auth` middleware. Fortify enables password resets; registration is absent from the enabled features.
+- Runtime evidence uses only the synthetic PT-DEMO-001 record. The ciphertext excerpt is deliberately truncated; this is evidence of storage encryption, not a transport-encryption test.

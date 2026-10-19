@@ -1,0 +1,28 @@
+--- app/Models/Patient.php : 16-29 ---
+  16      protected function casts(): array
+  17      {
+  18          return [
+  19              'first_name' => 'encrypted',
+  20              'middle_name' => 'encrypted',
+  21              'last_name' => 'encrypted',
+  22              'gender' => 'encrypted',
+  23              'birth_date' => 'encrypted',
+  24              'email' => 'encrypted',
+  25              'phone' => 'encrypted',
+  26              'address' => 'encrypted',
+  27              'active' => 'boolean',
+  28          ];
+  29      }
+--- routes/web.php : 13-20 ---
+  13  Route::middleware('auth')->group(function () {
+  14      Route::get('/dashboard', Dashboard::class)->name('dashboard');
+  15      Route::get('/patients', Patients::class)->name('patients.index');
+  16      Route::get('/patients/create', CreatePatient::class)->name('patients.create');
+  17      Route::get('/patients/{patient}', ShowPatient::class)->name('patients.show');
+  18      Route::get('/patients/{patient}/fhir', DownloadFhirPatientController::class)->name('patients.fhir.download');
+  19      Route::get('/audit-logs', AuditLogs::class)->name('audit-logs.index');
+  20  });
+--- config/fortify.php : 145-147 ---
+ 145      'features' => [
+ 146          Features::resetPasswords(),
+ 147      ],

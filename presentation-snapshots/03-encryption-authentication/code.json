@@ -1,0 +1,9 @@
+{
+  "title": "Encryption and authentication",
+  "caption": "Patient attributes use Laravel encrypted casts. Patient, export and audit pages require a signed-in session; public registration is disabled.",
+  "sections": [
+    {"path": "app/Models/Patient.php", "start": 16, "end": 29},
+    {"path": "routes/web.php", "start": 13, "end": 20},
+    {"path": "config/fortify.php", "start": 145, "end": 147}
+  ]
+}

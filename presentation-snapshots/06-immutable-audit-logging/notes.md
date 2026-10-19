@@ -1,0 +1,3 @@
+- Export attempts and outcomes become separate append-only audit events with a payload hash, result and HTTP status.
+- Model callbacks reject updates/deletes; MySQL triggers protect the same rows even when code bypasses Eloquent.
+- Runtime evidence checks both database triggers before probing a synthetic patient's existing audit event inside a transaction, then verifies that its stored row is unchanged.

@@ -1,0 +1,3 @@
+﻿- Patient creation checks identity fields, date of birth, optional contact fields, and patient-number uniqueness.
+- The user must confirm that the record contains synthetic test data before it is saved.
+- Successful creation redirects to the saved patient's details and FHIR actions.

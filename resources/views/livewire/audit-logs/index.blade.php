@@ -1,0 +1,10 @@
+<div class="demo-page">
+    <div class="demo-page-heading"><div><p class="demo-eyebrow">Accountability</p><h1>Audit Logs</h1><p class="demo-muted">Read-only, append-only records of FHIR transmission activity.</p></div><span class="demo-badge">Immutable events</span></div>
+    <div class="demo-notice">Each transmission creates an attempt event and a separate result event. Only metadata and the payload SHA-256 hash are stored here.</div>
+    <section class="demo-panel overflow-hidden"><div class="overflow-x-auto"><table class="demo-table"><caption class="sr-only">FHIR transmission audit events, newest first</caption><thead><tr><th scope="col">Time / event</th><th scope="col">Resource</th><th scope="col">Result</th><th scope="col">HTTP</th><th scope="col">Transmission metadata</th></tr></thead><tbody>
+        @forelse($logs as $log)
+            <tr wire:key="audit-{{ $log->id }}"><td><p class="whitespace-nowrap text-slate-900">{{ $log->created_at->format('M j, Y H:i:s') }}</p><p class="mt-1 font-mono text-xs">{{ $log->action }}</p><p class="mt-1 text-xs">User {{ $log->user_id ?? 'system' }} · Event #{{ $log->id }}</p></td><td>{{ $log->resource_type }} #{{ $log->resource_id }}</td><td><span class="demo-badge">{{ ucfirst($log->result) }}</span></td><td class="font-mono">{{ $log->http_status ?? '—' }}</td><td class="min-w-64 max-w-md space-y-2"><p class="break-all">{{ $log->destination }}</p><p>{{ $log->message }}</p>@if($log->remote_resource_id)<p class="break-all">Remote ID: {{ $log->remote_resource_id }}</p>@endif @if($log->payload_hash)<details><summary class="cursor-pointer text-teal-800">Payload SHA-256</summary><code class="mt-2 block break-all text-xs">{{ $log->payload_hash }}</code></details>@endif</td></tr>
+        @empty<tr><td colspan="5" class="!py-12 text-center"><h2>No audit events yet</h2><p class="demo-muted mt-2">Send a synthetic patient to the FHIR server to record an attempt and its result.</p></td></tr>@endforelse
+    </tbody></table></div></section>
+    {{ $logs->links() }}
+</div>

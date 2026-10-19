@@ -1,0 +1,24 @@
+--- app/Livewire/Patients/Create.php : 33-55 ---
+  33      public function save(): void
+  34      {
+  35          abort_unless(auth()->check(), 403);
+  36          $data = $this->validate([
+  37              'patient_number' => ['required', 'string', 'max:50', 'regex:/^[A-Za-z0-9_-]+$/', 'unique:patients,patient_number'],
+  38              'first_name' => ['required', 'string', 'max:100'],
+  39              'middle_name' => ['nullable', 'string', 'max:100'],
+  40              'last_name' => ['required', 'string', 'max:100'],
+  41              'gender' => ['required', 'in:male,female,other,unknown'],
+  42              'birth_date' => ['required', 'date_format:Y-m-d', 'before_or_equal:today', 'after_or_equal:1900-01-01'],
+  43              'email' => ['nullable', 'email', 'max:254'],
+  44              'phone' => ['nullable', 'string', 'max:40'],
+  45              'address' => ['nullable', 'string', 'max:500'],
+  46              'active' => ['boolean'],
+  47              'syntheticConfirmed' => ['accepted'],
+  48          ], ['syntheticConfirmed.accepted' => 'Confirm that this record contains synthetic test data only.']);
+  49          unset($data['syntheticConfirmed']);
+  50          foreach (['middle_name', 'email', 'phone', 'address'] as $field) {
+  51              $data[$field] = $data[$field] ?: null;
+  52          }
+  53          $patient = Patient::create($data);
+  54          session()->flash('status', 'Synthetic patient created.');
+  55          $this->redirectRoute('patients.show', ['patient' => $patient], navigate: true);

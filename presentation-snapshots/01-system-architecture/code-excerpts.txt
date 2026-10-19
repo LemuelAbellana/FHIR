@@ -1,0 +1,27 @@
+--- routes/web.php : 13-20 ---
+  13  Route::middleware('auth')->group(function () {
+  14      Route::get('/dashboard', Dashboard::class)->name('dashboard');
+  15      Route::get('/patients', Patients::class)->name('patients.index');
+  16      Route::get('/patients/create', CreatePatient::class)->name('patients.create');
+  17      Route::get('/patients/{patient}', ShowPatient::class)->name('patients.show');
+  18      Route::get('/patients/{patient}/fhir', DownloadFhirPatientController::class)->name('patients.fhir.download');
+  19      Route::get('/audit-logs', AuditLogs::class)->name('audit-logs.index');
+  20  });
+--- app/Livewire/Patients/Show.php : 36-42 ---
+  36      public function send(FhirPatientService $service): void
+  37      {
+  38          $user = auth()->user();
+  39          abort_unless($user instanceof User, 403);
+  40          $patient = Patient::findOrFail($this->patientId);
+  41          try {
+  42              $this->transmission = $service->send($patient, $user->id);
+--- app/Livewire/Patients/Show.php : 55-63 ---
+  55      public function render(): View
+  56      {
+  57          abort_unless(auth()->check(), 403);
+  58          $patient = Patient::findOrFail($this->patientId);
+  59  
+  60          return view('livewire.patients.show', [
+  61              'patient' => $patient,
+  62              'json' => $this->showPreview ? app(FhirPatientService::class)->json($patient) : null,
+  63          ])->title('Patient Details / FHIR');

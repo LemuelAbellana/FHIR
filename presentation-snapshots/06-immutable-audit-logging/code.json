@@ -1,0 +1,8 @@
+{
+  "title": "Immutable audit logging",
+  "caption": "Eloquent rejects edits and deletion. Database triggers also block direct SQL UPDATE and DELETE, covering writes that bypass the model.",
+  "sections": [
+    {"path": "app/Models/AuditLog.php", "start": 12, "end": 30},
+    {"path": "database/migrations/2026_10_19_000002_create_audit_logs_table.php", "start": 27, "end": 36}
+  ]
+}

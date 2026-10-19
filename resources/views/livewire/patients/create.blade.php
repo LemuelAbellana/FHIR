@@ -1,0 +1,16 @@
+<div class="demo-page max-w-4xl">
+    <flux:link :href="route('patients.index')" wire:navigate>← Back to patients</flux:link>
+    <div class="demo-page-heading"><div><p class="demo-eyebrow">Registry</p><h1>Add Patient</h1><p class="demo-muted">Create a synthetic record for the FHIR demonstration.</p></div><span class="demo-badge">Synthetic Test Data</span></div>
+    <div class="demo-notice"><strong>Use invented information only.</strong> Records can be sent to a public FHIR test server. Do not enter real patient data.</div>
+    <form wire:submit="save" class="demo-panel p-6 sm:p-8 space-y-8">
+        @if($errors->any())<div role="alert" class="demo-error"><strong>Check the highlighted fields.</strong><p>Complete the required information and confirm this is synthetic data.</p></div>@endif
+        <fieldset class="space-y-5"><legend class="text-lg font-semibold text-slate-900 mb-5">Patient information</legend>
+            <div class="grid gap-5 sm:grid-cols-2"><flux:input wire:model="patient_number" label="Patient number" description="Required. Letters, numbers, hyphens and underscores." required maxlength="50" placeholder="PT-DEMO-002" autocomplete="off"/><flux:select wire:model="gender" label="Gender" required><option value="">Select gender</option><option value="male">Male</option><option value="female">Female</option><option value="other">Other</option><option value="unknown">Unknown</option></flux:select></div>
+            <div class="grid gap-5 sm:grid-cols-3"><flux:input wire:model="first_name" label="First name" required maxlength="100" autocomplete="off"/><flux:input wire:model="middle_name" label="Middle name (optional)" maxlength="100" autocomplete="off"/><flux:input wire:model="last_name" label="Last name" required maxlength="100" autocomplete="off"/></div>
+            <div class="grid gap-5 sm:grid-cols-2"><flux:input wire:model="birth_date" label="Birth date" type="date" required min="1900-01-01" max="{{ now()->toDateString() }}"/><div class="flex items-end pb-3"><flux:checkbox wire:model="active" label="Active patient record"/></div></div>
+        </fieldset>
+        <fieldset class="space-y-5 border-t border-slate-200 pt-6"><legend class="text-lg font-semibold text-slate-900">Contact information <span class="text-sm font-normal text-slate-500">(optional)</span></legend><div class="grid gap-5 sm:grid-cols-2"><flux:input wire:model="email" label="Email" type="email" maxlength="254" autocomplete="off"/><flux:input wire:model="phone" label="Phone" type="tel" maxlength="40" autocomplete="off"/></div><flux:textarea wire:model="address" label="Address" rows="2" maxlength="500"/></fieldset>
+        <div class="border-t border-slate-200 pt-6"><flux:checkbox wire:model="syntheticConfirmed" label="I confirm this record contains synthetic test data only, with no real patient information."/><flux:error name="syntheticConfirmed"/></div>
+        <div class="flex flex-wrap gap-3"><flux:button variant="primary" type="submit" wire:loading.attr="disabled" wire:target="save"><span wire:loading.remove wire:target="save">Create Patient</span><span wire:loading wire:target="save">Saving patient…</span></flux:button><flux:button :href="route('patients.index')" wire:navigate>Cancel</flux:button></div>
+    </form>
+</div>

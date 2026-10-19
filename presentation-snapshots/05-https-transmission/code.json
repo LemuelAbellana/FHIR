@@ -1,0 +1,9 @@
+{
+  "title": "FHIR transmission over HTTPS",
+  "caption": "Actual service code sends the same JSON with FHIR headers, verified TLS, timeouts, and an optional bearer token.",
+  "sections": [
+    {"path": "app/Services/FhirPatientService.php", "start": 69, "end": 70},
+    {"path": "app/Services/FhirPatientService.php", "start": 90, "end": 110},
+    {"path": "app/Services/FhirPatientService.php", "start": 153, "end": 168}
+  ]
+}

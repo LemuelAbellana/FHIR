@@ -1,0 +1,9 @@
+﻿{
+  "title": "01 / System architecture - source",
+  "caption": "Authenticated routes connect the patient UI to the FHIR service.",
+  "sections": [
+    {"path": "routes/web.php", "start": 13, "end": 20},
+    {"path": "app/Livewire/Patients/Show.php", "start": 36, "end": 42},
+    {"path": "app/Livewire/Patients/Show.php", "start": 55, "end": 63}
+  ]
+}

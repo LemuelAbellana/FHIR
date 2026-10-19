@@ -1,0 +1,3 @@
+﻿- Walk from the authenticated Blade/Livewire interface through Laravel and the FHIR service.
+- MySQL stores encrypted patient fields; preview/download and HTTPS transmission use the same mapper.
+- Diagram is derived from source, not a runtime network trace. HAPI is the default configurable endpoint; audit immutability is enforced by model and database safeguards.

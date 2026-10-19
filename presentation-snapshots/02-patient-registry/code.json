@@ -1,0 +1,7 @@
+﻿{
+  "title": "02 / Patient registry - source",
+  "caption": "Validate the synthetic record, persist it, then open patient details.",
+  "sections": [
+    {"path": "app/Livewire/Patients/Create.php", "start": 33, "end": 55}
+  ]
+}

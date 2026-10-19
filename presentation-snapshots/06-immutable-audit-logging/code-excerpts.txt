@@ -1,0 +1,31 @@
+--- app/Models/AuditLog.php : 12-30 ---
+  12      public const FHIR_EXPORT_ATTEMPT = 'FHIR_EXPORT_ATTEMPT';
+  13  
+  14      public const FHIR_EXPORT_SUCCESS = 'FHIR_EXPORT_SUCCESS';
+  15  
+  16      public const FHIR_EXPORT_FAILED = 'FHIR_EXPORT_FAILED';
+  17  
+  18      public const UPDATED_AT = null;
+  19  
+  20      protected static function booted(): void
+  21      {
+  22          static::saving(function (self $audit): void {
+  23              if ($audit->exists) {
+  24                  throw new LogicException('Audit logs are immutable.');
+  25              }
+  26          });
+  27  
+  28          static::deleting(function (): void {
+  29              throw new LogicException('Audit logs are immutable.');
+  30          });
+--- database/migrations/2026_10_19_000002_create_audit_logs_table.php : 27-36 ---
+  27          foreach (['UPDATE', 'DELETE'] as $operation) {
+  28              $name = 'audit_logs_no_'.strtolower($operation);
+  29              if (DB::getDriverName() === 'mysql') {
+  30                  DB::unprepared("CREATE TRIGGER {$name} BEFORE {$operation} ON audit_logs FOR EACH ROW SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Audit logs are immutable'");
+  31              } elseif (DB::getDriverName() === 'sqlite') {
+  32                  DB::unprepared("CREATE TRIGGER {$name} BEFORE {$operation} ON audit_logs BEGIN SELECT RAISE(ABORT, 'Audit logs are immutable'); END");
+  33              } else {
+  34                  throw new RuntimeException('Audit immutability requires MySQL or SQLite.');
+  35              }
+  36          }

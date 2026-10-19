@@ -1,0 +1,10 @@
+AUTOMATED TEST EVIDENCE - LARAVEL HTTP FAKES
+No live network transmission or TLS handshake is demonstrated by this test run.
+Command: php artisan test --compact --filter=FhirPatientServiceTest --no-ansi
+Exit code: 0
+
+  ....................
+
+  Tests:    20 passed (128 assertions)
+  Duration: 1.40s
+

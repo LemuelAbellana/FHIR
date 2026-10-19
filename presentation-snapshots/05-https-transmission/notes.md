@@ -1,0 +1,3 @@
+- The service posts the exact preview JSON to the configured HTTPS base URL plus /Patient, with application/fhir+json headers, TLS certificate verification, timeouts, and an optional bearer token.
+- Destination validation rejects HTTP, embedded credentials, query strings, and fragments; redirects are disabled. The response supplies HTTP status, success state, and a validated remote resource ID.
+- http-fake-tests.txt records automated tests using Laravel HTTP fakes. A simulated 201 checks request construction and handling; these tests are not evidence of a live HTTPS transmission or a real TLS handshake.

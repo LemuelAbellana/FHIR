@@ -1,0 +1,42 @@
+--- app/Services/FhirPatientService.php : 69-70 ---
+  69          $json = $this->json($patient);
+  70          $destination = $this->destination();
+--- app/Services/FhirPatientService.php : 90-110 ---
+  90          if ($destination !== null) {
+  91              $request = Http::accept('application/fhir+json')
+  92                  ->withBody($json, 'application/fhir+json')
+  93                  ->withoutRedirecting()
+  94                  ->withOptions(['verify' => true])
+  95                  ->connectTimeout(config('fhir.connect_timeout', 5))
+  96                  ->timeout(config('fhir.timeout', 15));
+  97  
+  98              if (filled(config('fhir.bearer_token'))) {
+  99                  $request->withToken(config('fhir.bearer_token'));
+ 100              }
+ 101  
+ 102              try {
+ 103                  $response = $request->post($destination);
+ 104                  $httpStatus = $response->status();
+ 105                  $success = $response->successful();
+ 106                  $message = $success ? 'Transmission successful.' : 'FHIR server rejected the transmission. Please try again later.';
+ 107  
+ 108                  if ($success) {
+ 109                      $remoteId = $this->remoteId($response);
+ 110                  }
+--- app/Services/FhirPatientService.php : 153-168 ---
+ 153          $baseUrl = config('fhir.base_url');
+ 154  
+ 155          if (! is_string($baseUrl) || ! filter_var($baseUrl, FILTER_VALIDATE_URL)) {
+ 156              return null;
+ 157          }
+ 158  
+ 159          $parts = parse_url($baseUrl);
+ 160  
+ 161          if ($parts === false || strtolower($parts['scheme'] ?? '') !== 'https'
+ 162              || empty($parts['host']) || isset($parts['user']) || isset($parts['pass'])
+ 163              || isset($parts['query']) || isset($parts['fragment'])
+ 164              || str_contains($baseUrl, '\\')) {
+ 165              return null;
+ 166          }
+ 167  
+ 168          return rtrim($baseUrl, '/').'/Patient';
